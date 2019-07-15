@@ -1,0 +1,31 @@
+# Django REST server
+django==2.1.7
+django-debug-toolbar==1.11
+django-extensions==2.1.6
+# image
+Pillow==6.0.0
+
+# Timezone
+pytz==2018.9
+
+# Configuration
+# https://django-environ.readthedocs.io/en/latest/
+django-environ==0.4.3
+
+# Python-PostgreSQL Database Adapter
+psycopg2==2.7.7
+# http://initd.org/psycopg/docs/install.html#binary-install-from-pypi
+psycopg2-binary==2.7.7
+
+# Django Rest Framework
+# https://www.django-rest-framework.org/#installation
+djangorestframework==3.9.2
+markdown==3.0.1                 # Markdown support for the browsable API.
+django-filter==2.1.0            # Filtering support
+coreapi==2.3.3
+
+# Celery
+redis==3.2.1
+celery==4.3.0
+django-celery-beat==1.4.0
+flower==0.9.3

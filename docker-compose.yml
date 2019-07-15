@@ -1,0 +1,82 @@
+# https://docs.docker.com/compose/compose-file/
+version: '3.7'
+
+volumes:
+  iot_postgres_data: {}
+  iot_postgres_backups: {}
+  iot_redis_data: {}
+  iot_ipython_data: {}
+  iot_celery_work_data: {}
+  iot_celery_beat_data: {}
+
+services:
+  postgres:
+    env_file: ./config/.env
+    container_name: iot_postgres
+    image: postgres:11.2
+    volumes:
+      - iot_postgres_data:/var/lib/postgresql/data
+      - iot_postgres_backups:/backups
+    ports:
+      - 5432:5432
+
+  redis:
+    container_name: iot_redis
+    image: redis:latest
+    command: redis-server --appendonly yes
+    volumes:
+      - iot_redis_data:/data
+
+  django:
+    env_file: ./config/.env
+    container_name: iot_django
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    command: /start.sh
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+      - iot_ipython_data:/root/.ipython
+    links:
+      - postgres
+    ports:
+      - 8000:8000
+
+  celery:
+    env_file: ./config/.env
+    container_name: iot_celery_work
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    command: celery -A config worker -l info
+    volumes:
+      - iot_celery_work_data:/code
+    depends_on:
+      - postgres
+      - redis
+
+  celery-beat:
+    env_file: ./config/.env
+    container_name: iot_celery_beat
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    command: celery -A config beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - iot_celery_beat_data:/code
+    depends_on:
+      - postgres
+      - redis
+
+  flower:
+    env_file: ./config/.env
+    container_name: iot_flower
+    image: mher/flower
+    links:
+      - redis
+    depends_on:
+      - redis
+    ports:
+      - 5555:5555

@@ -102,3 +102,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Visual code
+.vscode/
+
+# Pipenv & Virtual Environments
+venv/
+
+# Django
+static/

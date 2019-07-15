@@ -1,0 +1,35 @@
+# https://docs.docker.com/compose/compose-file/
+version: '3.7'
+
+volumes:
+  iot_postgres_data: {}
+  iot_postgres_backups: {}
+  iot_ipython_data: {}
+
+services:
+  postgres:
+    env_file: ./config/.env
+    container_name: iot_postgres
+    image: postgres:11.2
+    volumes:
+      - iot_postgres_data:/var/lib/postgresql/data
+      - iot_postgres_backups:/backups
+    ports:
+      - 5432:5432
+
+  django:
+    env_file: ./config/.env
+    container_name: iot_django
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile
+    command: /start.sh
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+      - iot_ipython_data:/root/.ipython
+    links:
+      - postgres
+    ports:
+      - 8000:8000
