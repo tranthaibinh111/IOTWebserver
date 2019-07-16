@@ -8,4 +8,4 @@ class TemperatureViewSet(mixins.ListModelMixin,
     serializer_class = TemperatureSerializer
 
     def get_queryset(self):
-        return Temperature.objects.all()
+        return Temperature.objects.all().order_by('-timestamp')

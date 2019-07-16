@@ -8,4 +8,4 @@ class HumidityViewSet(mixins.ListModelMixin,
     serializer_class = HumiditySerializer
 
     def get_queryset(self):
-        return Humidity.objects.all()
+        return Humidity.objects.all().order_by('-timestamp')
