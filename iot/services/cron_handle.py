@@ -99,7 +99,8 @@ class CronHandleService:
                     }
                     # Sending post request
                     url = 'http://{0}/iot/cron_handle/'.format(settings.WEBSERVER)
-                    h = requests.post(url, data=payload)
+                    headers = {'Authorization': 'Token 7ae10d7a8a8e8263e41852cf804dfc79bce8b502'}
+                    h = requests.post(url, data=payload, headers=headers)
                     print("Test: {0}".format(h.content))
 
             except Exception as ex:
