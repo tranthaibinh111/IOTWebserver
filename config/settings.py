@@ -50,6 +50,8 @@ THIRD_PARTY_APPS = [
     'rest_framework.authtoken',
     # http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html#extensions
     'django_celery_beat',
+    # https://pypi.org/project/django-cors-headers/
+    'corsheaders',
 ]
 if DEBUG:
     THIRD_PARTY_APPS += [
@@ -71,6 +73,8 @@ AUTH_USER_MODEL = 'mvc.User'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # https://pypi.org/project/django-cors-headers/
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -170,6 +174,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 20
 }
+# Allow CORS requests from all domain
+CORS_ORIGIN_ALLOW_ALL = True
 
 # https://www.revsys.com/tidbits/celery-and-django-and-docker-oh-my/
 CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', default='')
