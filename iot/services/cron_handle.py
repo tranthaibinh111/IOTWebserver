@@ -1,4 +1,5 @@
 import requests
+import json
 
 from datetime import datetime
 from decimal import Decimal
@@ -88,17 +89,18 @@ class CronHandleService:
 
                 if settings.WEBSERVER:
                     # Data to be sent to api
-                    json = {
-                        "sensor": sensor,
-                        "data_json": {
+                    payload = {
+                        "sensor": sensor.pk,
+                        "data_json": json.dumps({
                             "humidity": humidity,
                             "temperature": temperature,
                             "timestamp": created_date.timestamp()
-                        }
+                        })
                     }
                     # Sending post request
                     url = 'http://{0}/iot/cron_handle/'.format(settings.WEBSERVER)
-                    requests.post(url = url, data = json)
+                    h = requests.post(url, data=payload)
+                    print("Test: {0}".format(h.content))
 
             except Exception as ex:
                 cron.ishandling = False

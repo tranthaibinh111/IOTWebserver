@@ -159,13 +159,15 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'static/'
 
 # https://www.django-rest-framework.org/#installation
-# REST_FRAMEWORK = {
-#     # Use Django's standard `django.contrib.auth` permissions,
-#     # or allow read-only access for unauthenticated users.
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-#     ]
-# }
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20
+}
 
 # https://www.revsys.com/tidbits/celery-and-django-and-docker-oh-my/
 CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', default='')
