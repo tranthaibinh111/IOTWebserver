@@ -1,6 +1,6 @@
 # Django REST server
 django==2.1.7
-django-debug-toolbar==1.11
+django-debug-toolbar==1.11.1
 django-extensions==2.1.6
 # image
 Pillow==6.0.0
