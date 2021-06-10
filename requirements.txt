@@ -1,5 +1,5 @@
 # Django REST server
-django==2.1.7
+django==2.2.24
 django-debug-toolbar==1.11
 django-extensions==2.1.6
 # image
